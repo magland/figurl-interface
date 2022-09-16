@@ -1,0 +1,1 @@
+{"version":3,"file":"runCalculationTaskAsync.js","sourceRoot":"","sources":["../src/runCalculationTaskAsync.ts"],"names":[],"mappings":";;;;;;;;;AAAA,OAAO,YAAY,MAAM,gBAAgB,CAAA;AAEzC,MAAM,uBAAuB,GAAG,CAAmB,QAAgB,EAAE,SAAiC,EAAuB,EAAE;IAC7H,OAAO,YAAY,CAAa,QAAQ,EAAE,SAAS,EAAE,aAAa,CAAC,CAAA;AACrE,CAAC,CAAA,CAAA;AAED,eAAe,uBAAuB,CAAA"}

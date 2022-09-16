@@ -1,0 +1,1 @@
+{"version":3,"file":"useCalculationTask.js","sourceRoot":"","sources":["../src/useCalculationTask.ts"],"names":[],"mappings":"AAAA,OAAO,OAAO,MAAM,WAAW,CAAC;AAEhC,MAAM,kBAAkB,GAAG,CAAa,QAA4B,EAAE,SAA+B,EAAE,EAAE;IACrG,OAAO,OAAO,CAAa,QAAQ,EAAE,SAAS,EAAE,aAAa,CAAC,CAAA;AAClE,CAAC,CAAA;AAED,eAAe,kBAAkB,CAAA"}
