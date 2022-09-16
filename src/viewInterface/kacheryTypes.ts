@@ -3,7 +3,8 @@ import { validateObject, isArrayOf, isBoolean, isJSONObject, isNumber, isObject,
 
 // This is a hack because there is no npm:process-browserify for package.json
 const process = (window as any).process || {
-    cwd: () => ('')
+    cwd: () => (''),
+    env: {}
 } as any
 
 const assert = (x: any) => {

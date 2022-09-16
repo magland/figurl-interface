@@ -2,7 +2,8 @@ import crypto from 'crypto';
 import { validateObject, isArrayOf, isBoolean, isJSONObject, isNumber, isObject, isObjectOf, isString, optional } from '@figurl/core-utils';
 // This is a hack because there is no npm:process-browserify for package.json
 const process = window.process || {
-    cwd: () => ('')
+    cwd: () => (''),
+    env: {}
 };
 const assert = (x) => {
     if (!x)
