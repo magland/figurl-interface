@@ -2,9 +2,10 @@
 # yarn lockfile v1
 
 
-"@figurl/core-utils@magland/figurl-core-utils.git#0.1.0":
-  version "0.1.0"
-  resolved "https://codeload.github.com/magland/figurl-core-utils/tar.gz/cbe972fd1f3cc63eadebb5bb26d228644df65c8c"
+"@figurl/core-utils@^0.1":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@figurl/core-utils/-/core-utils-0.1.2.tgz#759f3062967cdcaceed2c05e18d79cffa8c4e296"
+  integrity sha512-D8R0KuQlQfeHdKfmlV1Np6T/YBr3K3Wb3LDd69nfAXy9jldSSpwLajPTLNNGwHTDCbcOiiueHYLrZ3zBRENEbA==
   dependencies:
     chroma-js "^2.4.2"
     object-hash "^3.0.0"
