@@ -35,17 +35,6 @@ export const useUrlState = () => {
         }
     }, [urlState, setUrlState])
 
-    useEffect(() => {
-        ;(async () => {
-            const request: SetUrlStateRequest = {
-                type: 'setUrlState',
-                state: urlState || {}
-            }
-            const response = await sendRequestToParent(request)
-            if (!isSetUrlStateResponse(response)) throw Error('Invalid response to setUrlState')
-        })()
-    }, [urlState])
-
     return {
         urlState: urlState || initialUrlState,
         setUrlState: setUrlState || dummySetUrlState,
