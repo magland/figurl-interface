@@ -25,10 +25,11 @@ export const getFileDataUrl = async (uri: string) => {
     return response.fileDataUrl
 }
 
-export const storeFileData = async (fileData: string): Promise<string> => {
+export const storeFileData = async (fileData: string, o: {putlyKey?: string}={}): Promise<string> => {
     const request: StoreFileRequest = {
         type: 'storeFile',
-        fileData
+        fileData,
+        putlyKey: o.putlyKey
     }
     const response = await sendRequestToParent(request)
     if (!isStoreFileResponse(response)) throw Error('Invalid response to storeFile')
