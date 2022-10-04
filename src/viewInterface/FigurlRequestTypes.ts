@@ -172,14 +172,14 @@ export const isSubscribeToFeedResponse = (x: any): x is SubscribeToFeedResponse 
 export type StoreFileRequest = {
     type: 'storeFile'
     fileData: string
-    putlyKey?: string
+    jotId?: string
 }
 
 export const isStoreFileRequest = (x: any): x is StoreFileRequest => {
     return validateObject(x, {
         type: isEqualTo('storeFile'),
         fileData: isString,
-        putlyKey: optional(isString)
+        jotId: optional(isString)
     })
 }
 
