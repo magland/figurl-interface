@@ -33,7 +33,12 @@ export const storeFileData = async (fileData: string, o: {jotId?: string}={}): P
     }
     const response = await sendRequestToParent(request)
     if (!isStoreFileResponse(response)) throw Error('Invalid response to storeFile')
-    if (response.uri === undefined) throw Error('Unexpected response.uri is undefined')
+    if (response.error) {
+        throw Error(`Error storing file data: ${response.error}`)
+    }
+    if (response.uri === undefined) {
+        throw Error('Unexpected response.uri is undefined')
+    }
     return response.uri
 }
 
