@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react"
 import sendRequestToParent from "./sendRequestToParent"
-import { GetFileDataRequest, GetFileDataUrlRequest, isGetFileDataResponse, isGetFileDataUrlResponse, isStoreFileResponse, StoreFileRequest } from "./viewInterface/FigurlRequestTypes"
+import { GetFileDataRequest, GetFileDataUrlRequest, isGetFileDataResponse, isGetFileDataUrlResponse, isStoreFileResponse, isStoreGithubFileResponse, StoreFileRequest, StoreGithubFileRequest } from "./viewInterface/FigurlRequestTypes"
 
 const getFileData = async (uri: string, onProgress: (a: {loaded: number, total: number}) => void) => {
     const request: GetFileDataRequest = {
@@ -40,6 +40,19 @@ export const storeFileData = async (fileData: string, o: {jotId?: string}={}): P
         throw Error('Unexpected response.uri is undefined')
     }
     return response.uri
+}
+
+export const storeGithubFileData = async (o: {fileData: string, uri: string}): Promise<void> => {
+    const request: StoreGithubFileRequest = {
+        type: 'storeGithubFile',
+        fileData: o.fileData,
+        uri: o.uri
+    }
+    const response = await sendRequestToParent(request)
+    if (!isStoreGithubFileResponse(response)) throw Error('Invalid response to storeFile')
+    if (response.error) {
+        throw Error(`Error storing file data: ${response.error}`)
+    }
 }
 
 const progressListeners: {[uri: string]: (a: {loaded: number, total: number}) => void} = {}
