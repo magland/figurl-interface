@@ -30,24 +30,28 @@ export const isGetFigureDataResponse = (x: any): x is GetFigureDataResponse => {
 export type GetFileDataRequest = {
     type: 'getFileData'
     uri: string
+    responseType?: string // 'text', 'json', 'json-deserialized': default is 'json-deserialized'
 }
 
 export const isGetFileDataRequest = (x: any): x is GetFileDataRequest => {
     return validateObject(x, {
         type: isEqualTo('getFileData'),
-        uri: optional(isString)
+        uri: optional(isString),
+        responseType: optional(isString)
     })
 }
 
 export type GetFileDataResponse = {
     type: 'getFileData'
-    fileData: any
+    fileData?: any
+    errorMessage?: string
 }
 
 export const isGetFileDataResponse = (x: any): x is GetFileDataResponse => {
     return validateObject(x, {
         type: isEqualTo('getFileData'),
-        fileData: () => (true)
+        fileData: optional(() => (true)),
+        errorMessage: optional(isString)
     })
 }
 
@@ -67,13 +71,15 @@ export const isGetFileDataUrlRequest = (x: any): x is GetFileDataUrlRequest => {
 
 export type GetFileDataUrlResponse = {
     type: 'getFileDataUrl'
-    fileDataUrl: string
+    fileDataUrl?: string
+    errorMessage?: string
 }
 
 export const isGetFileDataUrlResponse = (x: any): x is GetFileDataUrlResponse => {
     return validateObject(x, {
         type: isEqualTo('getFileDataUrl'),
-        fileDataUrl: isString
+        fileDataUrl: optional(isString),
+        errorMessage: optional(isString)
     })
 }
 

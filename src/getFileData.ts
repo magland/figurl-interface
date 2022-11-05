@@ -12,16 +12,22 @@ const getFileData = async (uri: string, onProgress: (a: {loaded: number, total: 
     }
     const response = await sendRequestToParent(request)
     if (!isGetFileDataResponse(response)) throw Error('Invalid response to getFigureData')
+    if (response.errorMessage) {
+        throw Error(`Error getting file data for ${uri}: ${response.errorMessage}`)
+    }
     return response.fileData
 }
 
-export const getFileDataUrl = async (uri: string) => {
+export const getFileDataUrl = async (uri: string): Promise<string> => {
     const request: GetFileDataUrlRequest = {
         type: 'getFileDataUrl',
         uri
     }
     const response = await sendRequestToParent(request)
     if (!isGetFileDataUrlResponse(response)) throw Error('Invalid response to getFigureUrlData')
+    if ((!response.fileDataUrl) || (response.errorMessage)) {
+        throw Error(`Error getting file data for ${uri}: ${response.errorMessage}`)
+    }
     return response.fileDataUrl
 }
 
