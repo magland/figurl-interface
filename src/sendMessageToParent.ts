@@ -9,7 +9,7 @@ const sendMessageToParent = (x: MessageToParent) => {
         window.postMessage(x, '*')
         return
     }
-    ;(window.top as any).postMessage(x, queryParams.parentOrigin)
+    ;(window.parent as any).postMessage(x, queryParams.parentOrigin)
 }
 
 export default sendMessageToParent
