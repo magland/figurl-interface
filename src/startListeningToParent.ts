@@ -11,12 +11,12 @@ import { handleMessageFromBackend } from "./customMessages"
 const urlSearchParams = new URLSearchParams(window.location.search)
 const queryParams = Object.fromEntries(urlSearchParams.entries())
 
-if (!queryParams.parentOrigin) {
-    // self-contained bundle
-    const s = document.createElement("script");
-    s.setAttribute("src", "figurlData.js");
-    document.body.appendChild(s);
-}
+// if (!queryParams.parentOrigin) {
+//     // self-contained bundle
+//     const s = document.createElement("script");
+//     s.setAttribute("src", "figurlData.js");
+//     document.body.appendChild(s);
+// }
 
 const startListeningToParent = () => {
     window.addEventListener('message', e => {
