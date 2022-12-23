@@ -1,6 +1,5 @@
 export {default as startListeningToParent } from './startListeningToParent'
 
-export { onMessageFromBackend, sendMessageToBackend } from './customMessages'
 export { default as getFigureData } from './getFigureData'
 export { default as getFileData, getFileDataUrl, useFileData, storeFileData, storeGithubFileData } from './getFileData'
 export { default as getMutable } from './getMutable'

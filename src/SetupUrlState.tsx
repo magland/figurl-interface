@@ -1,13 +1,13 @@
 import { FunctionComponent, PropsWithChildren, useCallback, useMemo, useState } from 'react';
 import sendRequestToParent from './sendRequestToParent';
-import UrlStateContext, { initialUrlState, UrlState } from './UrlStateContext';
+import UrlStateContext, { getInitialUrlState, UrlState } from './UrlStateContext';
 import { isSetUrlStateResponse, SetUrlStateRequest } from './viewInterface/FigurlRequestTypes';
 
 type Props = {
 }
 
 const SetupUrlState: FunctionComponent<PropsWithChildren<Props>> = (props) => {
-    const [urlState, setUrlState] = useState<UrlState>(initialUrlState)
+    const [urlState, setUrlState] = useState<UrlState>(getInitialUrlState) // important that this component is defined AFTER initialization
     const handleSetUrlState = useCallback((state: {[key: string]: any}) => {
         ;(async () => {
             const request: SetUrlStateRequest = {

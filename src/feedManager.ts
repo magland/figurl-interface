@@ -9,16 +9,17 @@ export class Feed {
     #localMessages: JSONObject[] = []
     #internalListeners: {[key: string]: () => void} = {}
     constructor(public feedId: string) {
-        const req: SubscribeToFeedRequest = {
-            type: 'subscribeToFeed',
-            feedId
-        }
-        sendRequestToParent(req).then(resp => {
-            if (!isSubscribeToFeedResponse(resp)) {
-                throw Error('Invalid response to subscribeToFeed')
-            }
-            this._handleNewMessages(0, resp.messages)
-        })
+        console.warn('Feeds disabled')
+        // const req: SubscribeToFeedRequest = {
+        //     type: 'subscribeToFeed',
+        //     feedId
+        // }
+        // sendRequestToParent(req).then(resp => {
+        //     if (!isSubscribeToFeedResponse(resp)) {
+        //         throw Error('Invalid response to subscribeToFeed')
+        //     }
+        //     this._handleNewMessages(0, resp.messages)
+        // })
     }
     async waitForMessages(a: {position: number, maxNumMessages: MessageCount, waitMsec: DurationMsec}): Promise<JSONObject[]> {
         const {position, waitMsec} = a
