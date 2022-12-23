@@ -81,7 +81,7 @@ const sendRequestToParent = async (request: FigurlRequest) => {
             requestId,
             request
         }
-        sendMessageToParent(msg, parentOrigin)
+        sendMessageToParent(msg, {parentOrigin})
     })
 }
 
