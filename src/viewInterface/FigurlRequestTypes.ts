@@ -1,5 +1,5 @@
 import { isTaskJobStatus, isTaskType, TaskJobStatus, TaskType } from "./MessageToChildTypes"
-import { validateObject, isArrayOf, isBoolean, isEqualTo, isJSONObject, isNull, isOneOf, isString, JSONObject, optional } from "@figurl/core-utils"
+import { validateObject, isArrayOf, isBoolean, isEqualTo, isJSONObject, isNull, isOneOf, isString, JSONObject, optional, isNumber } from "@figurl/core-utils"
 
 // getFigureData
 
@@ -30,14 +30,18 @@ export const isGetFigureDataResponse = (x: any): x is GetFigureDataResponse => {
 export type GetFileDataRequest = {
     type: 'getFileData'
     uri: string
-    responseType?: string // 'text', 'json', 'json-deserialized': default is 'json-deserialized'
+    responseType?: string // 'text', 'json', 'json-deserialized', 'binary': default is 'json-deserialized'
+    startByte?: number
+    endByte?: number
 }
 
 export const isGetFileDataRequest = (x: any): x is GetFileDataRequest => {
     return validateObject(x, {
         type: isEqualTo('getFileData'),
         uri: optional(isString),
-        responseType: optional(isString)
+        responseType: optional(isString),
+        startByte: optional(isNumber),
+        endByte: optional(isNumber)
     })
 }
 
