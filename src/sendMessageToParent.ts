@@ -1,12 +1,11 @@
 import { MessageToParent } from "./viewInterface/MessageToParentTypes";
 
+const urlSearchParams = new URLSearchParams(window.location.search)
+const queryParams = Object.fromEntries(urlSearchParams.entries())
+
 const sendMessageToParent = (x: MessageToParent, {parentOrigin}: {parentOrigin: string}) => {
-    const parentOrOpenerWindow = window.parent || window.opener
-    if (!parentOrOpenerWindow) {
-        console.warn('No parent or opener. Posting to self')
-        window.postMessage(x, '*')
-        return
-    }
+    const parentOrOpenerWindow = queryParams.useOpener === '1' ? window.opener : window.parent
+    // if no parent, this will post to itself
     parentOrOpenerWindow.postMessage(x, parentOrigin)
 }
 
