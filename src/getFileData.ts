@@ -2,10 +2,17 @@ import { useEffect, useMemo, useState } from "react"
 import sendRequestToParent from "./sendRequestToParent"
 import { GetFileDataRequest, GetFileDataUrlRequest, isGetFileDataResponse, isGetFileDataUrlResponse, isStoreFileResponse, isStoreGithubFileResponse, StoreFileRequest, StoreGithubFileRequest } from "./viewInterface/FigurlRequestTypes"
 
-const getFileData = async (uri: string, onProgress: (a: {loaded: number, total: number}) => void) => {
+const getFileData = async (uri: string, onProgress: (a: {loaded: number, total: number}) => void, o: {startByte?: number, endByte?: number, responseType?: string}={}) => {
     const request: GetFileDataRequest = {
         type: 'getFileData',
         uri
+    }
+    if (o.responseType !== undefined) {
+        request.responseType = o.responseType
+    }
+    if (o.startByte !== undefined) {
+        request.startByte = o.startByte
+        request.endByte = o.endByte
     }
     progressListeners[uri] = ({loaded, total}) => {
         onProgress({loaded, total})
@@ -74,7 +81,7 @@ export type Progress = {
     onProgress: (callback: (a: {loaded: number, total: number}) => void) => void
 }
 
-export const useFileData = (uri: string) => {
+export const useFileData = (uri: string, o: {startByte?: number, endByte?: number}={}) => {
     const [fileData, setFileData] = useState<any | undefined>(undefined)
     const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined)
     const {progress, reportProgress} = useMemo(() => {
@@ -92,12 +99,12 @@ export const useFileData = (uri: string) => {
     useEffect(() => {
         setErrorMessage(undefined)
         setFileData(undefined)
-        getFileData(uri, reportProgress).then(data => {
+        getFileData(uri, reportProgress, {startByte: o.startByte, endByte: o.endByte}).then(data => {
             setFileData(data)
         }).catch(err => {
             setErrorMessage(err.message)
         })
-    }, [uri, reportProgress])
+    }, [uri, reportProgress, o.startByte, o.endByte])
     return {fileData, progress, errorMessage}
 }
 
