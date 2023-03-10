@@ -1,5 +1,3 @@
-import { handleTaskStatusUpdate } from "./initiateTask"
-import { handleNewFeedMessages } from "./feedManager"
 import { FigurlResponseMessage, isMessageToChild } from "./viewInterface/MessageToChildTypes"
 import { handleFigurlResponse } from "./sendRequestToParent"
 import { handleSetCurrentUser } from "./useSignedIn"
@@ -39,12 +37,6 @@ const startListeningToParent = () => {
         if (isMessageToChild(msg)) {
             if (msg.type === 'figurlResponse') {
                 handleFigurlResponse(msg)
-            }
-            else if (msg.type === 'taskStatusUpdate') {
-                handleTaskStatusUpdate(msg)
-            }
-            else if (msg.type === 'newFeedMessages') {
-                handleNewFeedMessages(msg)
             }
             else if (msg.type === 'setCurrentUser') {
                 handleSetCurrentUser({userId: msg.userId, googleIdToken: msg.googleIdToken})
@@ -86,12 +78,6 @@ const startListeningToParent = () => {
                         response: resp
                     }
                     window.postMessage(msg2, '*')
-                }
-                else if (req.type === 'initiateTask') {
-                    console.warn(`Unable to handle request of type ${req.type} for self-contained figures`)
-                }
-                else if (req.type === 'subscribeToFeed') {
-                    console.warn(`Unable to handle request of type ${req.type} for self-contained figures`)
                 }
             }
         }

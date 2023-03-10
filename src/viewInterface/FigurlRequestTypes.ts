@@ -86,32 +86,6 @@ export const isGetFileDataUrlResponse = (x: any): x is GetFileDataUrlResponse =>
     })
 }
 
-// getMutable
-
-export type GetMutableRequest = {
-    type: 'getMutable'
-    key: string
-}
-
-export const isGetMutableRequest = (x: any): x is GetMutableRequest => {
-    return validateObject(x, {
-        type: isEqualTo('getMutable'),
-        key: isString
-    })
-}
-
-export type GetMutableResponse = {
-    type: 'getMutable'
-    value: string | null
-}
-
-export const isGetMutableResponse = (x: any): x is GetMutableResponse => {
-    return validateObject(x, {
-        type: isEqualTo('getMutable'),
-        value: isOneOf([isNull, isString])
-    })
-}
-
 // storeFile
 
 export type StoreFileRequest = {
@@ -286,7 +260,6 @@ export type FigurlRequest =
     GetFigureDataRequest |
     GetFileDataRequest |
     GetFileDataUrlRequest |
-    GetMutableRequest |
     StoreFileRequest |
     StoreGithubFileRequest |
     SetUrlStateRequest |
@@ -298,7 +271,6 @@ export const isFigurlRequest = (x: any): x is FigurlRequest => {
         isGetFigureDataRequest,
         isGetFileDataRequest,
         isGetFileDataUrlRequest,
-        isGetMutableRequest,
         isStoreFileRequest,
         isStoreGithubFileRequest,
         isSetUrlStateRequest,
@@ -311,7 +283,6 @@ export type FigurlResponse =
     GetFigureDataResponse |
     GetFileDataResponse |
     GetFileDataUrlResponse |
-    GetMutableResponse |
     StoreFileResponse |
     StoreGithubFileResponse |
     SetUrlStateResponse |
@@ -323,7 +294,6 @@ export const isFigurlResponse = (x: any): x is FigurlResponse => {
         isGetFigureDataResponse,
         isGetFileDataResponse,
         isGetFileDataUrlResponse,
-        isGetMutableResponse,
         isStoreFileResponse,
         isStoreGithubFileResponse,
         isSetUrlStateResponse,
