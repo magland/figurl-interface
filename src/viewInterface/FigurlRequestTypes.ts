@@ -1,5 +1,4 @@
-import { isTaskJobStatus, isTaskType, TaskJobStatus, TaskType } from "./MessageToChildTypes"
-import { validateObject, isArrayOf, isBoolean, isEqualTo, isJSONObject, isNull, isOneOf, isString, JSONObject, optional, isNumber } from "@figurl/core-utils"
+import { isArrayOf, isBoolean, isEqualTo, isJSONObject, isNull, isNumber, isOneOf, isString, optional, validateObject } from "@figurl/core-utils"
 
 // getFigureData
 
@@ -113,83 +112,19 @@ export const isGetMutableResponse = (x: any): x is GetMutableResponse => {
     })
 }
 
-// initiateTask
-
-export type InitiateTaskRequest = {
-    type: 'initiateTask'
-    taskName: string
-    taskInput: {[key: string]: any}
-    taskType: TaskType
-}
-
-export const isInitiateTaskRequest = (x: any): x is InitiateTaskRequest => {
-    return validateObject(x, {
-        type: isEqualTo('initiateTask'),
-        taskName: isString,
-        taskInput: () => (true),
-        taskType: isTaskType
-    })
-}
-
-export type InitiateTaskResponse = {
-    type: 'initiateTask'
-    taskJobId: string
-    status: TaskJobStatus
-    errorMessage?: string // for status=error
-    returnValue?: any // for status=finished
-    returnValueUrl?: string // even before status=finished (optional for backward compatibility)
-}
-
-export const isInitiateTaskResponse = (x: any): x is InitiateTaskResponse => {
-    return validateObject(x, {
-        type: isEqualTo('initiateTask'),
-        taskJobId: isString,
-        status: isTaskJobStatus,
-        errorMessage: optional(isString),
-        returnValue: optional(() => (true)),
-        returnValueUrl: optional(isString)
-    })
-}
-
-// subscribeToFeed
-
-export type SubscribeToFeedRequest = {
-    type: 'subscribeToFeed'
-    feedId: string
-}
-
-export const isSubscribeToFeedRequest = (x: any): x is SubscribeToFeedRequest => {
-    return validateObject(x, {
-        type: isEqualTo('subscribeToFeed'),
-        feedId: isString
-    })
-}
-
-export type SubscribeToFeedResponse = {
-    type: 'subscribeToFeed'
-    messages: JSONObject[]
-}
-
-export const isSubscribeToFeedResponse = (x: any): x is SubscribeToFeedResponse => {
-    return validateObject(x, {
-        type: isEqualTo('subscribeToFeed'),
-        messages: isArrayOf(isJSONObject)
-    })
-}
-
 // storeFile
 
 export type StoreFileRequest = {
     type: 'storeFile'
     fileData: string
-    jotId?: string
+    uri?: string
 }
 
 export const isStoreFileRequest = (x: any): x is StoreFileRequest => {
     return validateObject(x, {
         type: isEqualTo('storeFile'),
         fileData: isString,
-        jotId: optional(isString)
+        uri: optional(isString)
     })
 }
 
@@ -261,6 +196,90 @@ export const isSetUrlStateResponse = (x: any): x is SetUrlStateResponse => {
     })
 }
 
+// serviceQuery
+
+export type ServiceQueryRequest = {
+    type: 'serviceQuery'
+    serviceName: string
+    query: any
+}
+
+export const isServiceQueryRequest = (x: any): x is ServiceQueryRequest => {
+    return validateObject(x, {
+        type: isEqualTo('serviceQuery'),
+        serviceName: isString,
+        query: () => (true)
+    })
+}
+
+export type ServiceQueryResponse = {
+    type: 'serviceQuery'
+    result?: any
+    errorMessage?: string
+}
+
+export const isServiceQueryResponse = (x: any): x is ServiceQueryResponse => {
+    return validateObject(x, {
+        type: isEqualTo('serviceQuery'),
+        result: optional(() => (true)),
+        errorMessage: optional(isString)
+    })
+}
+
+// getFileData
+
+export type ReadDirRequest = {
+    type: 'readDir'
+    uri: string
+}
+
+export const isReadDirRequest = (x: any): x is ReadDirRequest => {
+    return validateObject(x, {
+        type: isEqualTo('readDir'),
+        uri: isString
+    })
+}
+
+export type RDFile = {
+    name: string
+    size: number
+    mtime: number
+}
+
+export type RDDir = {
+    files: RDFile[]
+    dirs: RDDir[]
+}
+
+const isRDFile = (x: any): x is RDFile => {
+    return validateObject(x, {
+        name: isString,
+        size: isNumber,
+        mtime: isNumber
+    })
+}
+
+const isRDDir = (x: any): x is RDDir => {
+    return validateObject(x, {
+        files: isArrayOf(isRDFile),
+        dirs: isArrayOf(isRDDir)
+    })
+}
+
+export type ReadDirResponse = {
+    type: 'readDir'
+    dir?: RDDir
+    errorMessage?: string
+}
+
+export const isReadDirResponse = (x: any): x is ReadDirResponse => {
+    return validateObject(x, {
+        type: isEqualTo('readDir'),
+        dir: optional(isRDDir),
+        errorMessage: optional(isString)
+    })
+}
+
 //////////////////////////////////////////////////////////////
 
 export type FigurlRequest =
@@ -268,11 +287,11 @@ export type FigurlRequest =
     GetFileDataRequest |
     GetFileDataUrlRequest |
     GetMutableRequest |
-    InitiateTaskRequest |
-    SubscribeToFeedRequest |
     StoreFileRequest |
     StoreGithubFileRequest |
-    SetUrlStateRequest
+    SetUrlStateRequest |
+    ServiceQueryRequest |
+    ReadDirRequest
 
 export const isFigurlRequest = (x: any): x is FigurlRequest => {
     return isOneOf([
@@ -280,11 +299,11 @@ export const isFigurlRequest = (x: any): x is FigurlRequest => {
         isGetFileDataRequest,
         isGetFileDataUrlRequest,
         isGetMutableRequest,
-        isInitiateTaskRequest,
-        isSubscribeToFeedRequest,
         isStoreFileRequest,
         isStoreGithubFileRequest,
-        isSetUrlStateRequest
+        isSetUrlStateRequest,
+        isServiceQueryRequest,
+        isReadDirRequest
     ])(x)
 }
 
@@ -293,11 +312,11 @@ export type FigurlResponse =
     GetFileDataResponse |
     GetFileDataUrlResponse |
     GetMutableResponse |
-    InitiateTaskResponse |
-    SubscribeToFeedResponse |
     StoreFileResponse |
     StoreGithubFileResponse |
-    SetUrlStateResponse
+    SetUrlStateResponse |
+    ServiceQueryResponse |
+    ReadDirResponse
 
 export const isFigurlResponse = (x: any): x is FigurlResponse => {
     return isOneOf([
@@ -305,10 +324,10 @@ export const isFigurlResponse = (x: any): x is FigurlResponse => {
         isGetFileDataResponse,
         isGetFileDataUrlResponse,
         isGetMutableResponse,
-        isInitiateTaskResponse,
-        isSubscribeToFeedResponse,
         isStoreFileResponse,
         isStoreGithubFileResponse,
-        isSetUrlStateResponse
+        isSetUrlStateResponse,
+        isServiceQueryResponse,
+        isReadDirResponse
     ])(x)
 }
