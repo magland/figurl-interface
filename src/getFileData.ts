@@ -38,11 +38,10 @@ export const getFileDataUrl = async (uri: string): Promise<string> => {
     return response.fileDataUrl
 }
 
-export const storeFileData = async (fileData: string, o: {jotId?: string}={}): Promise<string> => {
+export const storeFileData = async (fileData: string, o: {}={}): Promise<string> => {
     const request: StoreFileRequest = {
         type: 'storeFile',
-        fileData,
-        jotId: o.jotId
+        fileData
     }
     const response = await sendRequestToParent(request)
     if (!isStoreFileResponse(response)) throw Error('Invalid response to storeFile')
