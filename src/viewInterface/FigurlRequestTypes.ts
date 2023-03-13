@@ -98,7 +98,8 @@ export const isStoreFileRequest = (x: any): x is StoreFileRequest => {
     return validateObject(x, {
         type: isEqualTo('storeFile'),
         fileData: isString,
-        uri: optional(isString)
+        uri: optional(isString),
+        jotId: optional(() => (true)) // need to keep this in because one visualization still passes undefined for this value
     })
 }
 
