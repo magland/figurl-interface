@@ -222,6 +222,7 @@ export type RDFile = {
 }
 
 export type RDDir = {
+    name?: string
     files: RDFile[]
     dirs: RDDir[]
 }
@@ -236,6 +237,7 @@ const isRDFile = (x: any): x is RDFile => {
 
 const isRDDir = (x: any): x is RDDir => {
     return validateObject(x, {
+        name: optional(isString),
         files: isArrayOf(isRDFile),
         dirs: isArrayOf(isRDDir)
     })
