@@ -190,6 +190,7 @@ export const isServiceQueryRequest = (x: any): x is ServiceQueryRequest => {
 export type ServiceQueryResponse = {
     type: 'serviceQuery'
     result?: any
+    binaryPayload?: any
     errorMessage?: string
 }
 
@@ -197,6 +198,7 @@ export const isServiceQueryResponse = (x: any): x is ServiceQueryResponse => {
     return validateObject(x, {
         type: isEqualTo('serviceQuery'),
         result: optional(() => (true)),
+        binaryPayload: optional(() => (true)),
         errorMessage: optional(isString)
     })
 }
