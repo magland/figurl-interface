@@ -177,13 +177,15 @@ export type ServiceQueryRequest = {
     type: 'serviceQuery'
     serviceName: string
     query: any
+    includeUserId?: boolean
 }
 
 export const isServiceQueryRequest = (x: any): x is ServiceQueryRequest => {
     return validateObject(x, {
         type: isEqualTo('serviceQuery'),
         serviceName: isString,
-        query: () => (true)
+        query: () => (true),
+        includeUserId: optional(isBoolean)
     })
 }
 
