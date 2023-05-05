@@ -4,6 +4,7 @@ import { handleSetCurrentUser } from "./useSignedIn"
 import { isMessageToParent } from "./viewInterface/MessageToParentTypes"
 import { GetFigureDataResponse, GetFileDataResponse } from "./viewInterface/FigurlRequestTypes"
 import { handleFileDownloadProgress } from "./getFileData"
+import { handleReportUrlStateChange } from "./SetupUrlState"
 
 // const urlSearchParams = new URLSearchParams(window.location.search)
 // const queryParams = Object.fromEntries(urlSearchParams.entries())
@@ -43,6 +44,9 @@ const startListeningToParent = () => {
             }
             else if (msg.type === 'fileDownloadProgress') {
                 handleFileDownloadProgress({uri: msg.uri, loaded: msg.loaded, total: msg.total})
+            }
+            else if (msg.type === 'reportUrlStateChange') {
+                handleReportUrlStateChange(msg.state)
             }
         }
         else if (isMessageToParent(msg)) {

@@ -66,19 +66,35 @@ export const isMessageToFrontendMessage = (x: any): x is MessageToFrontendMessag
     })
 }
 
+// reportUrlStateChange
+
+export type ReportUrlStateChangeMessage = {
+    type: 'reportUrlStateChange',
+    state: {[key: string]: any}
+}
+
+export const isReportUrlStateChangeMessage = (x: any): x is ReportUrlStateChangeMessage => {
+    return validateObject(x, {
+        type: isEqualTo('reportUrlStateChange'),
+        state: () => (true)
+    })
+}
+
 ///////////////////////////////////////////////////////////////////////////////////
 
 export type MessageToChild =
     FigurlResponseMessage |
     SetCurrentUserMessage |
     FileDownloadProgressMessage |
-    MessageToFrontendMessage
+    MessageToFrontendMessage |
+    ReportUrlStateChangeMessage
 
 export const isMessageToChild = (x: any): x is MessageToChild => {
     return isOneOf([
         isFigurlResponseMessage,
         isSetCurrentUserMessage,
         isFileDownloadProgressMessage,
-        isMessageToFrontendMessage
+        isMessageToFrontendMessage,
+        isReportUrlStateChangeMessage
     ])(x)
 }

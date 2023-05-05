@@ -1,5 +1,6 @@
 import React, { useCallback, useContext } from "react"
 import { waitForInitialization } from "./sendRequestToParent"
+import { JSONStringifyDeterministic } from "./viewInterface/kacheryTypes"
 
 export type UrlState = {[key: string]: any}
 
@@ -47,7 +48,15 @@ export const useUrlState = () => {
         for (let k in s) {
             const newVal = s[k]
             const oldVal = (urlState || (getInitialUrlState()))[k]
-            if (newVal !== oldVal) {
+            if ((newVal === undefined) && (oldVal !== undefined)) {
+                delete newUrlState[k]
+                somethingChanged = true
+            }
+            else if ((newVal !== undefined) && (oldVal === undefined)) {
+                newUrlState[k] = newVal
+                somethingChanged = true
+            }
+            else if (JSONStringifyDeterministic(newVal) !== JSONStringifyDeterministic(oldVal)) {
                 newUrlState[k] = newVal
                 somethingChanged = true
             }
