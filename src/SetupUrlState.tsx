@@ -33,7 +33,7 @@ export const handleReportUrlStateChange = (state: UrlState) => {
 }
 
 const SetupUrlState: FunctionComponent<PropsWithChildren<Props>> = (props) => {
-    const [urlState, setUrlState] = useState<UrlState>(getInitialUrlState) // important that this component is defined AFTER initialization
+    const [urlState, setUrlState] = useState<UrlState>(getInitialUrlState()) // important that this component is defined AFTER initialization
     const handleSetUrlState = useCallback((state: {[key: string]: any}) => {
         ;(async () => {
             const request: SetUrlStateRequest = {
@@ -42,7 +42,10 @@ const SetupUrlState: FunctionComponent<PropsWithChildren<Props>> = (props) => {
             }
             const response = await sendRequestToParent(request)
             if (!isSetUrlStateResponse(response)) throw Error('Invalid response to setUrlState')
-            setUrlState(state)
+
+            // this was the old method
+            // we don't do this anymore because we wait for the parent to send us the new state (see below)
+            // setUrlState(state)
         })()
     }, [])
     const value = useMemo(() => ({urlState, setUrlState: handleSetUrlState}), [urlState, handleSetUrlState])
