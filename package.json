@@ -1,6 +1,6 @@
 {
   "name": "@figurl/interface",
-  "version": "0.2.9",
+  "version": "0.3.0",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -26,11 +26,6 @@
   },
   "dependencies": {
     "@figurl/core-utils": "^0.1",
-    "@types/node": "^18.7.18",
-    "assert": "npm:assert-browserify",
-    "buffer": "npm:buffer-browserify",
-    "crypto": "npm:crypto-browserify",
-    "path": "npm:path-browserify",
-    "stream": "npm:stream-browserify"
+    "@types/node": "^18.7.18"
   }
 }
